@@ -1,0 +1,43 @@
+Escribir una función que permita convertir un número entero a una cadena de caracteres con su
+representación decimal. Prototipo: char *itoa(int n); Sugerencia: Utilizar la función sprintf() de
+la biblioteca estándar (<string.h>).
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <limits.h>
+
+char *itoa(int n);
+
+int main (void){
+  int n = INT_MIN;
+  char *cadena;
+
+  if( (cadena= itoa(n)) == NULL  ){
+    fprintf(stderr, "Error: memoria insuficiente");
+    return 1;
+  }
+
+  puts(cadena);
+  free(cadena);
+  cadena = NULL;
+
+  return 0;
+}
+
+char *itoa(int n){
+  char *string;
+  size_t size;
+  int aux = n;
+  int base = 10;
+
+  for( size = 1 ; (aux/base) ; size++) aux/=base ; 
+  if (n < 0) size++; 
+  
+  if((string=(char*)malloc(sizeof(char)*size+1))== NULL)
+    return NULL;
+    
+  sprintf(string,"%d",n);
+   
+return string;  
+}
